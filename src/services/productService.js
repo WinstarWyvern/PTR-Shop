@@ -11,3 +11,13 @@ export async function getProducts(limit = 4) {
 
   return data.products;
 }
+
+export async function getProductById(id) {
+  const response = await fetch(`${API_URL}/products/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch product");
+  }
+
+  return response.json();
+}
