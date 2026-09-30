@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getProducts } from '../services/productService';
 
 function Home() {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        fetch('https://dummyjson.com/products?limit=4')
-            .then((response) => response.json())
-            .then((data) => {
-                setProducts(data.products);
+        getProducts(4)
+            .then((products) => {
+                setProducts(products);
             });
-    }, []);
+    }, [])
 
     return (
         <div>
