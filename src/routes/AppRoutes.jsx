@@ -5,22 +5,28 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Products from '../pages/Products';
 import ProductDetail from '../pages/ProductDetail';
+import Cart from '../pages/Cart';
+
+import { CartProvider } from '../context/CartContext';
 
 function AppRoutes() {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
+            <CartProvider>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
 
-                <Route element={<ShopLayout />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route
-                        path="/products/:id"
-                        element={<ProductDetail />}
-                    />
-                </Route>
-            </Routes>
+                    <Route element={<ShopLayout />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route
+                            path="/products/:id"
+                            element={<ProductDetail />}
+                        />
+                        <Route path="/cart" element={<Cart />} />
+                    </Route>
+                </Routes>
+            </CartProvider>
         </BrowserRouter>
     );
 }
