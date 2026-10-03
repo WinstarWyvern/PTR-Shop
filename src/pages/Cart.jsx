@@ -1,7 +1,11 @@
 import { useCart } from '../context/useCart';
 
 function Cart() {
-    const { cartItems } = useCart();
+    const {
+        cartItems,
+        increaseQuantity,
+        decreaseQuantity
+    } = useCart();
 
     return (
         <div>
@@ -10,8 +14,26 @@ function Cart() {
             {cartItems.map((item) => (
                 <div key={item.product.id}>
                     <h2>{item.product.title}</h2>
-                    <p>Price: ${item.product.price}</p>
-                    <p>Quantity: {item.quantity}</p>
+
+                    <p>${item.product.price}</p>
+
+                    <button
+                        onClick={() =>
+                            decreaseQuantity(item.product.id)
+                        }
+                    >
+                        -
+                    </button>
+
+                    <span>{item.quantity}</span>
+
+                    <button
+                        onClick={() =>
+                            increaseQuantity(item.product.id)
+                        }
+                    >
+                        +
+                    </button>
                 </div>
             ))}
         </div>

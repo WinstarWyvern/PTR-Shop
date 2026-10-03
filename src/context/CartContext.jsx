@@ -34,26 +34,28 @@ export function CartProvider({ children }) {
 
     function increaseQuantity(productId) {
         setCartItems((currentItems) => {
-            return currentItems.map(item => {
-                item.product.id === productId ? {
-                    ...item,
-                    quantity: item.quantity + 1
-                }
+            return currentItems.map((item) =>
+                item.product.id === productId
+                    ? {
+                        ...item,
+                        quantity: item.quantity + 1
+                    }
                     : item
-            })
-        })
+            );
+        });
     }
 
     function decreaseQuantity(productId) {
         setCartItems((currentItems) => {
-            return currentItems.map(item => {
-                item.product.id === productId ? {
-                    ...item,
-                    quantity: item.quantity - 1
-                }
+            return currentItems.map((item) =>
+                item.product.id === productId
+                    ? {
+                        ...item,
+                        quantity: item.quantity - 1
+                    }
                     : item
-            })
-        })
+            );
+        });
     }
 
     return (
