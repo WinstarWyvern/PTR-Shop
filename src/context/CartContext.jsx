@@ -47,6 +47,16 @@ export function CartProvider({ children }) {
 
     function decreaseQuantity(productId) {
         setCartItems((currentItems) => {
+            const item = currentItems.find(
+                (item) => item.product.id === productId
+            );
+
+            if (item.quantity === 1) {
+                return currentItems.filter(
+                    (item) => item.product.id !== productId
+                );
+            }
+
             return currentItems.map((item) =>
                 item.product.id === productId
                     ? {
@@ -58,9 +68,15 @@ export function CartProvider({ children }) {
         });
     }
 
+    function removeFromCart(productId) {
+        setCartItems((currentItems) => {
+            return currentItems.filter((item) => item.product.id !== productId);
+        });
+    }
+
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity }}
+            value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity, removeFromCart }}
         >
             {children}
         </CartContext.Provider>
