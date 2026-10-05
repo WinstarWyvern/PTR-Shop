@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Products from '../pages/Products';
 import ProductDetail from '../pages/ProductDetail';
 import Cart from '../pages/Cart';
+import Checkout from '../pages/Checkout';
 
 import { CartProvider } from '../context/CartContext';
 
@@ -24,6 +25,7 @@ function AppRoutes() {
                             element={<ProductDetail />}
                         />
                         <Route path="/cart" element={<Cart />} />
+                        <Route path="/checkout" element={<Checkout />} />
                     </Route>
                 </Routes>
             </CartProvider>

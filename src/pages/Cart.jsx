@@ -62,6 +62,10 @@ function Cart() {
                     ))}
 
                     <h2>Total: ${total}</h2>
+
+                    <Link to="/checkout">
+                        Checkout
+                    </Link>
                 </div>
             )}
         </div>
