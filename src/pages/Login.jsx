@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { login } from '../services/authService';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -15,10 +16,19 @@ function Login() {
         }));
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
-        console.log(formData);
+        try {
+            const data = await login(
+                formData.username,
+                formData.password
+            );
+
+            console.log('Login berhasil:', data);
+        } catch (error) {
+            console.error('Login gagal:', error.message);
+        }
     }
 
     return (

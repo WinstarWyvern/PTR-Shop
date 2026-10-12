@@ -4,13 +4,29 @@ import ProductCard from '../components/ProductCard';
 
 function Products() {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         getProducts(12)
-            .then((products) => {
-                setProducts(products);
+            .then((data) => {
+                setProducts(data);
+            })
+            .catch((error) => {
+                setError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }, []);
+
+    if (loading) {
+        return <p>Loading products...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <div>

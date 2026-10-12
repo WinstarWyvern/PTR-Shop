@@ -5,23 +5,46 @@ import { useCart } from '../context/useCart';
 
 function ProductDetail() {
     const { id } = useParams();
+
     const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     const { addToCart } = useCart();
 
     useEffect(() => {
-        getProductById(id)
-            .then((product) => {
-                setProduct(product);
-            });
+        async function fetchProduct() {
+            setLoading(true);
+            setError('');
+            setProduct(null);
+
+            try {
+                const data = await getProductById(id);
+                setProduct(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchProduct();
     }, [id]);
 
     function handleAddToCart() {
         addToCart(product);
     }
 
+    if (loading) {
+        return <div>Loading product...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     if (!product) {
-        return <div>Loading...</div>;
+        return <div>Product not found.</div>;
     }
 
     return (
@@ -30,7 +53,7 @@ function ProductDetail() {
 
             <p>Product ID: {id}</p>
 
-            <h1>{product.title}</h1>
+            <h2>{product.title}</h2>
 
             <img
                 src={product.thumbnail}
