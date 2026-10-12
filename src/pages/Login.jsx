@@ -1,11 +1,18 @@
 import { useState } from 'react';
-import { login } from '../services/authService';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
 
 function Login() {
+    const navigate = useNavigate();
+    const { signIn } = useAuth();
+
     const [formData, setFormData] = useState({
         username: '',
         password: ''
     });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -19,15 +26,20 @@ function Login() {
     async function handleSubmit(event) {
         event.preventDefault();
 
+        setLoading(true);
+        setError('');
+
         try {
-            const data = await login(
+            await signIn(
                 formData.username,
                 formData.password
             );
 
-            console.log('Login berhasil:', data);
+            navigate('/');
         } catch (error) {
-            console.error('Login gagal:', error.message);
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -37,27 +49,33 @@ function Login() {
 
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Username</label>
+                    <label htmlFor="username">Username</label>
                     <input
+                        id="username"
                         type="text"
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
+                        required
                     />
                 </div>
 
                 <div>
-                    <label>Password</label>
+                    <label htmlFor="password">Password</label>
                     <input
+                        id="password"
                         type="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
+                        required
                     />
                 </div>
 
-                <button type="submit">
-                    Login
+                {error && <p>{error}</p>}
+
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Logging in...' : 'Login'}
                 </button>
             </form>
         </div>
