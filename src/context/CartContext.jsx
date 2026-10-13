@@ -51,6 +51,10 @@ export function CartProvider({ children }) {
                 (item) => item.product.id === productId
             );
 
+            if (!item) {
+                return currentItems;
+            }
+
             if (item.quantity === 1) {
                 return currentItems.filter(
                     (item) => item.product.id !== productId
@@ -70,13 +74,26 @@ export function CartProvider({ children }) {
 
     function removeFromCart(productId) {
         setCartItems((currentItems) => {
-            return currentItems.filter((item) => item.product.id !== productId);
+            return currentItems.filter(
+                (item) => item.product.id !== productId
+            );
         });
+    }
+
+    function clearCart() {
+        setCartItems([]);
     }
 
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, increaseQuantity, decreaseQuantity, removeFromCart }}
+            value={{
+                cartItems,
+                addToCart,
+                increaseQuantity,
+                decreaseQuantity,
+                removeFromCart,
+                clearCart
+            }}
         >
             {children}
         </CartContext.Provider>

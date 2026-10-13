@@ -18,8 +18,6 @@ export function AuthProvider({ children }) {
     async function signIn(username, password) {
         const data = await loginRequest(username, password);
 
-        localStorage.setItem('accessToken', data.accessToken);
-
         const userData = {
             id: data.id,
             username: data.username,
@@ -28,6 +26,7 @@ export function AuthProvider({ children }) {
             email: data.email,
         };
 
+        localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('user', JSON.stringify(userData));
 
         setAccessToken(data.accessToken);
@@ -58,3 +57,5 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     );
 }
+
+export default AuthContext;
