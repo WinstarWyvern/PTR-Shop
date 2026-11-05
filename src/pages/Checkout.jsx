@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useCart } from '../context/useCart';
 import { useAuth } from '../context/useAuth';
+import { useOrder } from '../context/useOrder';
 
 function Checkout() {
     const { cartItems, clearCart } = useCart();
     const { user } = useAuth();
+    const { createOrder } = useOrder();
 
     const [formData, setFormData] = useState({
         name: `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim(),
@@ -36,10 +38,19 @@ function Checkout() {
             return;
         }
 
-        // Simulasi membuat order
-        const newOrderId = `ORD-${Date.now()}`;
+        // Membuat order dan menyimpannya melalui OrderContext
+        const newOrder = createOrder({
+            userId: user.id,
+            customer: { ...formData },
+            items: cartItems.map((item) => ({
+                product: item.product,
+                quantity: item.quantity,
+                subtotal: item.product.price * item.quantity
+            })),
+            total
+        });
 
-        setOrderId(newOrderId);
+        setOrderId(newOrder.id);
         clearCart();
     }
 

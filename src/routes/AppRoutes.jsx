@@ -10,6 +10,8 @@ import Checkout from '../pages/Checkout';
 
 import { CartProvider } from '../context/CartContext';
 import { AuthProvider } from '../context/AuthContext';
+import { OrderProvider } from '../context/OrderContext';
+
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function AppRoutes() {
@@ -17,35 +19,37 @@ function AppRoutes() {
         <BrowserRouter>
             <AuthProvider>
                 <CartProvider>
-                    <Routes>
-                        <Route path="/login" element={<Login />} />
+                    <OrderProvider>
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
 
-                        <Route element={<ShopLayout />}>
-                            <Route path="/" element={<Home />} />
+                            <Route element={<ShopLayout />}>
+                                <Route path="/" element={<Home />} />
 
-                            <Route
-                                path="/products"
-                                element={<Products />}
-                            />
-
-                            <Route
-                                path="/products/:id"
-                                element={<ProductDetail />}
-                            />
-
-                            <Route
-                                path="/cart"
-                                element={<Cart />}
-                            />
-
-                            <Route element={<ProtectedRoute />}>
                                 <Route
-                                    path="/checkout"
-                                    element={<Checkout />}
+                                    path="/products"
+                                    element={<Products />}
                                 />
+
+                                <Route
+                                    path="/products/:id"
+                                    element={<ProductDetail />}
+                                />
+
+                                <Route
+                                    path="/cart"
+                                    element={<Cart />}
+                                />
+
+                                <Route element={<ProtectedRoute />}>
+                                    <Route
+                                        path="/checkout"
+                                        element={<Checkout />}
+                                    />
+                                </Route>
                             </Route>
-                        </Route>
-                    </Routes>
+                        </Routes>
+                    </OrderProvider>
                 </CartProvider>
             </AuthProvider>
         </BrowserRouter>
